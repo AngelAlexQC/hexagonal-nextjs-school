@@ -39,6 +39,6 @@ export default async function userController(
     const removedUser = users.shift();
     // Delete first user
     await userRepository.delete(removedUser?.id as string);
-    return response.status(204).send(true);
+    return response.status(200).end();
   }
 }

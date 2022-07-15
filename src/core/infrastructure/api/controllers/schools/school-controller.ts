@@ -39,6 +39,6 @@ export default async function schoolController(
     const removedSchool = schools.shift();
     // Delete first school
     await schoolRepository.delete(removedSchool?.id as string);
-    return response.status(204).send(true);
+    return response.status(200).send(true);
   }
 }

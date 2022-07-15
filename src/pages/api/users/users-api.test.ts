@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 import User from 'core/domain/models/user';
 import 'isomorphic-fetch';
+import { Document } from 'mongoose';
 
 describe('Users API ROUTE', () => {
   it('should return a list of users', async () => {
@@ -79,5 +80,19 @@ describe('Users API ROUTE', () => {
     expect(user.email).toBe(newEmail);
     expect(user.firstName).toBe(`${newDate}First`);
     expect(user.lastName).toBe(`${newDate}Last`);
+  });
+
+  it('delete all users', async () => {
+    const response = await fetch('http://localhost:3000/api/users');
+    const { users } = await response.json();
+    users.forEach(async (user: Document) => {
+      const responseUser = await fetch(
+        `http://localhost:3000/api/users/${user._id}`,
+        {
+          method: 'DELETE',
+        },
+      );
+      expect(responseUser.status).toBe(200);
+    });
   });
 });
